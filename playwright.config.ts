@@ -1,6 +1,7 @@
 import { defineConfig, devices } from '@playwright/test'
 
 const baseURL = process.env.PLAYWRIGHT_BASE_URL ?? 'http://127.0.0.1:3000'
+const shouldUseWebServer = process.env.PLAYWRIGHT_SKIP_WEBSERVER !== 'true'
 
 export default defineConfig({
   testDir: './tests',
@@ -29,13 +30,15 @@ export default defineConfig({
       use: { ...devices['Desktop Safari'] },
     },
   ],
-  webServer: {
-    command: 'npm run dev -- --host 127.0.0.1',
-    env: {
-      PLAYWRIGHT: 'true',
-    },
-    url: baseURL,
-    reuseExistingServer: !process.env.CI,
-    timeout: 120000,
-  },
+  webServer: shouldUseWebServer
+    ? {
+        command: 'npm run dev -- --host 127.0.0.1',
+        env: {
+          PLAYWRIGHT: 'true',
+        },
+        url: baseURL,
+        reuseExistingServer: !process.env.CI,
+        timeout: 120000,
+      }
+    : undefined,
 })

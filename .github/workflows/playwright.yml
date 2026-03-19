@@ -31,7 +31,7 @@ jobs:
     - name: Wait for app server
       run: npx wait-on http://127.0.0.1:3000 --timeout 120000
     - name: Run Playwright tests
-      run: PLAYWRIGHT_BASE_URL=http://127.0.0.1:3000 npx playwright test
+      run: PLAYWRIGHT_BASE_URL=http://127.0.0.1:3000 PLAYWRIGHT_SKIP_WEBSERVER=true npx playwright test
     - name: Print app logs
       if: ${{ always() }}
       run: cat app.log
