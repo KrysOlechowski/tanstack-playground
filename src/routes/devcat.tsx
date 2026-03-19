@@ -16,6 +16,7 @@ export const Route = createFileRoute('/devcat')({
 function RouteComponent() {
   return (
     <div className="min-h-screen overflow-hidden bg-[#efe5d1] text-[#2d241b]">
+      <h1>DevCat</h1>
       <section className="relative min-h-screen">
         <div className="h-250">
           <img
