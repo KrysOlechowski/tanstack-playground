@@ -26,15 +26,8 @@ jobs:
         [ -n "$VITE_SUPABASE_URL" ] || (echo "Missing VITE_SUPABASE_URL" && exit 1)
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
-    - name: Start app server
-      run: PLAYWRIGHT=true npm run dev -- --host 0.0.0.0 > app.log 2>&1 &
-    - name: Wait for app server
-      run: npx wait-on http://127.0.0.1:3000 --timeout 120000
     - name: Run Playwright tests
-      run: PLAYWRIGHT_BASE_URL=http://127.0.0.1:3000 PLAYWRIGHT_SKIP_WEBSERVER=true npx playwright test
-    - name: Print app logs
-      if: ${{ always() }}
-      run: cat app.log
+      run: npm run test:e2e
     - uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
       with:
