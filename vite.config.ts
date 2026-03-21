@@ -13,7 +13,13 @@ const includeDevtools = !process.env.CI && !process.env.PLAYWRIGHT
 
 const config = defineConfig({
   plugins: [
-    ...(includeDevtools ? devtools() : []),
+    ...(includeDevtools
+      ? devtools({
+          eventBusConfig: {
+            enabled: false,
+          },
+        })
+      : []),
     nitro({ rollupConfig: { external: [/^@sentry\//] } }),
     tsconfigPaths({ projects: ['./tsconfig.json'] }),
     svgr(),
