@@ -10,12 +10,18 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as DevcatRouteImport } from './routes/devcat'
+import { Route as AsyncTestRouteImport } from './routes/async-test'
 import { Route as ApiTestRouteImport } from './routes/api-test'
 import { Route as IndexRouteImport } from './routes/index'
 
 const DevcatRoute = DevcatRouteImport.update({
   id: '/devcat',
   path: '/devcat',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AsyncTestRoute = AsyncTestRouteImport.update({
+  id: '/async-test',
+  path: '/async-test',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiTestRoute = ApiTestRouteImport.update({
@@ -32,30 +38,34 @@ const IndexRoute = IndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/api-test': typeof ApiTestRoute
+  '/async-test': typeof AsyncTestRoute
   '/devcat': typeof DevcatRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/api-test': typeof ApiTestRoute
+  '/async-test': typeof AsyncTestRoute
   '/devcat': typeof DevcatRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/api-test': typeof ApiTestRoute
+  '/async-test': typeof AsyncTestRoute
   '/devcat': typeof DevcatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/api-test' | '/devcat'
+  fullPaths: '/' | '/api-test' | '/async-test' | '/devcat'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/api-test' | '/devcat'
-  id: '__root__' | '/' | '/api-test' | '/devcat'
+  to: '/' | '/api-test' | '/async-test' | '/devcat'
+  id: '__root__' | '/' | '/api-test' | '/async-test' | '/devcat'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ApiTestRoute: typeof ApiTestRoute
+  AsyncTestRoute: typeof AsyncTestRoute
   DevcatRoute: typeof DevcatRoute
 }
 
@@ -66,6 +76,13 @@ declare module '@tanstack/react-router' {
       path: '/devcat'
       fullPath: '/devcat'
       preLoaderRoute: typeof DevcatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/async-test': {
+      id: '/async-test'
+      path: '/async-test'
+      fullPath: '/async-test'
+      preLoaderRoute: typeof AsyncTestRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api-test': {
@@ -88,6 +105,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ApiTestRoute: ApiTestRoute,
+  AsyncTestRoute: AsyncTestRoute,
   DevcatRoute: DevcatRoute,
 }
 export const routeTree = rootRouteImport

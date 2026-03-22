@@ -12,6 +12,11 @@ import { nitro } from 'nitro/vite'
 const includeDevtools = !process.env.CI && !process.env.PLAYWRIGHT
 
 const config = defineConfig({
+  server: {
+    watch: {
+      ignored: ['**/src/routeTree.gen.ts'],
+    },
+  },
   plugins: [
     ...(includeDevtools
       ? devtools({
